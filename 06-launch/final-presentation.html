@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StreamLine Spotlight — Final Product Management Presentation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lato:wght@400;700&family=Poppins:wght@600;700;800;900&display=swap');
+:root{
+  --bg:#07162C;--fg:#fff;--muted:#fff;--orange:#fb923c;--cyan:#22d3ee;--teal:#34d399;
+  --blue:#60a5fa;--violet:#a78bfa;--pink:#f472b6;--line:rgba(251,146,60,.25);
+  --panel:rgba(255,255,255,.045);--panel2:rgba(255,255,255,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Lato,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 85% 12%,rgba(34,211,238,.10),transparent 28%),
+ radial-gradient(circle at 8% 80%,rgba(251,146,60,.08),transparent 30%);z-index:-1}
+#progress{position:fixed;z-index:100;top:0;left:0;width:100%;height:4px;background:rgba(255,255,255,.08)}
+#progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--cyan));transition:width .2s}
+section{min-height:100vh;height:100vh;scroll-snap-align:start;position:relative;padding:54px 6vw 44px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.container{width:min(1400px,100%);margin:auto}
+.eyebrow{font:500 12px/1 IBM Plex Mono,monospace;letter-spacing:.12em;text-transform:uppercase;color:#fdba74;margin-bottom:13px}
+h1,h2,h3,h4{font-family:Poppins,Arial,sans-serif;margin:0;line-height:1.05}
+h1{font-size:clamp(42px,5.5vw,84px);font-weight:900;letter-spacing:-.045em}
+h2{font-size:clamp(32px,3.3vw,55px);font-weight:800;letter-spacing:-.035em}
+h3{font-size:clamp(17px,1.4vw,24px);font-weight:700}
+p{font-size:clamp(15px,1.15vw,19px);line-height:1.45;margin:0;color:rgba(255,255,255,.9)}
+.small{font-size:13px;line-height:1.45}.mono{font-family:IBM Plex Mono,monospace}
+.muted{color:rgba(255,255,255,.7)}
+.orange{color:var(--orange)}.cyan{color:var(--cyan)}.teal{color:var(--teal)}.blue{color:var(--blue)}.violet{color:var(--violet)}.pink{color:var(--pink)}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;backdrop-filter:blur(10px)}
+.key{box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.hero-card{background:linear-gradient(135deg,rgba(251,146,60,.13),rgba(34,211,238,.07));border-color:rgba(251,146,60,.4)}
+.label{font:500 11px/1.2 IBM Plex Mono,monospace;text-transform:uppercase;letter-spacing:.08em;color:#fdba74}
+.metric{font:800 clamp(29px,3vw,46px)/1 Poppins,sans-serif;margin:7px 0}
+.rule{height:1px;background:rgba(255,255,255,.13);margin:14px 0}
+.pill{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 11px;font:500 11px IBM Plex Mono,monospace;color:#fff;margin:3px 3px 3px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:10px;border:1px solid rgba(251,146,60,.55);background:var(--orange);color:#07162C;text-decoration:none;font:700 13px Poppins,sans-serif;box-shadow:0 10px 28px rgba(251,146,60,.18)}
+.btn.alt{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+a{color:#fff}
+.footer-tag{position:absolute;bottom:22px;left:6vw;right:6vw;display:flex;justify-content:space-between;color:rgba(255,255,255,.48);font:400 10px IBM Plex Mono,monospace;text-transform:uppercase;letter-spacing:.08em}
+.nav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:10px}
+.dot{width:9px;height:9px;border:1px solid rgba(255,255,255,.55);border-radius:50%;background:transparent;cursor:pointer;padding:0}
+.dot.active{background:var(--orange);border-color:var(--orange);box-shadow:0 0 0 4px rgba(251,146,60,.12)}
+.cover{justify-content:center}
+.cover .accent-line{width:90px;height:5px;background:linear-gradient(90deg,var(--orange),var(--cyan));border-radius:5px;margin:22px 0}
+.cover p.pitch{font-size:clamp(18px,1.55vw,25px);max-width:980px}
+.meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.linkline{font:400 11px IBM Plex Mono,monospace;color:rgba(255,255,255,.62);word-break:break-all}
+.split{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;align-items:stretch}
+.quote{font:700 clamp(18px,1.6vw,26px)/1.35 Poppins,sans-serif;border-left:4px solid var(--orange);padding-left:18px}
+.bullets{display:grid;gap:9px;margin-top:12px}
+.bullet{display:grid;grid-template-columns:9px 1fr;gap:9px;align-items:start}
+.bullet:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);margin-top:7px}
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.step{position:relative;padding:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.035)}
+.step.misery{border-color:rgba(251,146,60,.8);background:rgba(251,146,60,.11)}
+.step.misery:after{content:"MOMENT OF MISERY";position:absolute;top:-9px;right:10px;background:var(--orange);color:#07162C;border-radius:5px;padding:3px 6px;font:500 8px IBM Plex Mono,monospace}
+.step strong{display:block;font:700 13px Poppins,sans-serif;margin-bottom:5px}
+.step span{font-size:12px;line-height:1.35;color:rgba(255,255,255,.7)}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.road{min-height:170px}.road.now{border-color:rgba(251,146,60,.6)}.road.next{border-color:rgba(34,211,238,.4)}.road.later{border-color:rgba(167,139,250,.4)}
+.road h3{margin:7px 0 11px}.road ul{margin:0;padding-left:17px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.5}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.035)}
+.kpi .metric{font-size:30px}
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.arm{border-radius:13px;padding:18px;border:1px solid rgba(255,255,255,.15)}.arm.a{border-color:rgba(96,165,250,.45)}.arm.b{border-color:rgba(251,146,60,.6)}
+.arm h3{margin-bottom:7px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rulebox{padding:15px;border-radius:12px;border:1px solid rgba(255,255,255,.14)}
+.rulebox strong{font:700 13px Poppins,sans-serif;display:block;margin-bottom:5px}.rulebox p{font-size:12px}
+.dashboard{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.bad{border:1px solid rgba(244,114,182,.55);background:rgba(244,114,182,.08)}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.phase{padding:13px;border-left:3px solid var(--orange);background:rgba(255,255,255,.035);border-radius:0 10px 10px 0}.phase:nth-child(2){border-color:var(--cyan)}.phase:nth-child(3){border-color:var(--violet)}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:16px}.aha{font-size:clamp(24px,2.3vw,38px);font-weight:800;line-height:1.15}
+.submit{text-align:center}.submit .container{display:flex;flex-direction:column;align-items:center}
+.callout{display:inline-flex;border:1px solid rgba(251,146,60,.55);background:rgba(251,146,60,.11);border-radius:999px;padding:10px 15px;font:500 11px IBM Plex Mono,monospace;color:#fed7aa;margin-top:22px}
+@media(max-width:900px){
+ section{height:auto;min-height:100vh;padding:42px 6vw 60px;overflow:visible}
+ .split,.dashboard,.story{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}
+ .kpi-grid{grid-template-columns:1fr 1fr}.roadmap{grid-template-columns:1fr}
+ .nav{display:none}.journey{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.g2,.g3,.flow,.rules,.timeline,.journey{grid-template-columns:1fr}.kpi-grid{grid-template-columns:1fr}.footer-tag{display:none}}
+@media print{
+ html{scroll-snap-type:none}section{page-break-after:always;height:100vh}.nav,#progress{display:none}
+}
+</style>
+</head>
+<body>
+<div id="progress"><span></span></div>
+<nav class="nav" aria-label="Slide navigation">
+  <button class="dot active" data-slide="0" aria-label="Cover"></button>
+  <button class="dot" data-slide="1" aria-label="Strategy"></button>
+  <button class="dot" data-slide="2" aria-label="Research"></button>
+  <button class="dot" data-slide="3" aria-label="Blueprint"></button>
+  <button class="dot" data-slide="4" aria-label="Validation"></button>
+  <button class="dot" data-slide="5" aria-label="Launch"></button>
+  <button class="dot" data-slide="6" aria-label="Story"></button>
+  <button class="dot" data-slide="7" aria-label="Thank you"></button>
+</nav>
+
+<section class="cover" id="slide-1">
+<div class="container">
+  <div class="eyebrow">Product School · Final Project</div>
+  <h1>StreamLine Spotlight,<br><span class="orange">A Personalised Discovery Rail</span></h1>
+  <div class="accent-line"></div>
+  <p class="pitch">Turn an overwhelming home screen into 30-minute listening sessions with a Spotlight rail that tells each Explorer why they will love a title.</p>
+  <div class="meta">
+    <span class="pill">Your Name · Product Management Cohort · Jun 2026</span>
+    <a class="btn" href="https://www.figma.com/your-spotlight-prototype" target="_blank" rel="noopener">View prototype ↗</a>
+    <a class="btn alt" href="https://github.com/your-handle/pm-final-project" target="_blank" rel="noopener">Open repo ↗</a>
+  </div>
+  <div class="linkline" style="margin-top:18px">github.com/your-handle/pm-final-project · figma.com/your-spotlight-prototype</div>
+</div>
+<div class="footer-tag"><span>01 / 08</span><span>StreamLine Spotlight</span></div>
+</section>
+
+<section id="slide-2">
+<div class="container">
+  <div class="eyebrow">Slide 5 · Strategy</div>
+  <h2>From “more features” to <span class="orange">strategic weight</span></h2>
+  <div class="split" style="margin-top:20px">
+    <div class="card hero-card key">
+      <div class="label">Problem hook</div>
+      <p class="quote" style="margin-top:12px">StreamLine is losing its most valuable subscribers one quiet Reddit search at a time, and without curation, fifteen thousand titles will not save a platform that no one trusts to pick the right one</p>
+      <div class="rule"></div>
+      <div class="label">Value proposition</div>
+      <p style="margin-top:8px">Spotlight gives StreamLine's fifteen thousand titles a voice, turning an overwhelming catalog into a trusted, editorially guided experience that wins back subscribers who value quality over quantity.</p>
+    </div>
+    <div class="card">
+      <div class="label">What the PM adds</div>
+      <div class="bullets">
+        <div class="bullet"><div><b>Strategic priority:</b> no evidence a feature was requested or that it drives revenue or retention.</div></div>
+        <div class="bullet"><div><b>Low strategic weight:</b> customizable bottle icons/themes look “correct” but have no clear business or user-demand link.</div></div>
+        <div class="bullet"><div><b>Frameworks changed the output:</b> JTBD, effort/impact, and retention thinking forced usefulness; the AI did not get smarter.</div></div>
+        <div class="bullet"><div><b>PM role:</b> AI organizes and executes quickly; strategic thinking must come from the PM.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="label">Hypothesis · success metric</div>
+    <div class="g3 grid" style="margin-top:10px">
+      <div><div class="metric orange">41%</div><p class="small">Wanderers represent the base with the lowest LTV and highest reliance on trending content.</p></div>
+      <div><div class="metric cyan">61%</div><p class="small">Trending-content exposure among Wanderers; Spotlight targets the undifferentiated-content problem.</p></div>
+      <div><div class="metric teal">22 pts</div><p class="small">Observed churn improvement for Spotlight-exposed Wanderers; target is at least 15 points.</p></div>
+    </div>
+  </div>
+</div>
+<div class="footer-tag"><span>02 / 08</span><span>Strategic Product Thinking</span></div>
+</section>
+
+<section id="slide-3">
+<div class="container">
+  <div class="eyebrow">Slide 6 · Research</div>
+  <h2>The workaround is the <span class="cyan">evidence</span></h2>
+  <div class="split" style="margin-top:18px">
+    <div class="card">
+      <div class="label">Quality-Sensitive Subscriber</div>
+      <h3 style="margin-top:8px">Goal: confidence before spending 20 minutes</h3>
+      <div class="rule"></div>
+      <p class="small"><b>Friction:</b> no sense of why something is recommended, which erodes trust over time.</p>
+      <p class="small" style="margin-top:10px"><b>External tools:</b> StreamLineTV, film subreddits, Letterboxd, Rotten Tomatoes/Metacritic, and group chat.</p>
+      <p class="small" style="margin-top:10px"><b>Manual process:</b> see recommendation → search Reddit/Letterboxd → skim 2–3 reviews → cross-check → return to StreamLine or abandon.</p>
+    </div>
+    <div class="card hero-card">
+      <div class="label">Core frustration</div>
+      <p class="quote" style="margin-top:12px">The moment they realize they’re doing StreamLine’s job for it — the platform surfaced the title but gave them zero reasoning.</p>
+      <div class="rule"></div>
+      <div class="label">Competitive / workaround insight</div>
+      <p style="margin-top:8px">The 15,000-title catalog is not the value proposition. Curation with a visible reason is.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="label">Journey map · where Spotlight enters</div>
+    <div class="journey">
+      <div class="step"><strong>1 · Open app</strong><span>Jamie arrives intending to find something to watch.</span></div>
+      <div class="step"><strong>2 · Scan generic rows</strong><span>Trending, Popular, and “Because You Watched X” repeat.</span></div>
+      <div class="step misery"><strong>3 · Hesitate</strong><span>Nothing feels credible or personally relevant. The user looks elsewhere for reasoning.</span></div>
+      <div class="step"><strong>4 · Bounce</strong><span>Google, Reddit, a friend, or a competitor app takes the session.</span></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">Spotlight inserts a reasoned shortlist exactly at the hesitation point, before the user gives up.</p>
+  </div>
+</div>
+<div class="footer-tag"><span>03 / 08</span><span>Competitive Analysis & Journey Map</span></div>
+</section>
+
+<section id="slide-4">
+<div class="container">
+  <div class="eyebrow">Slide 7 · Blueprint</div>
+  <h2>Ship the smallest rail that can <span class="orange">prove the thesis</span></h2>
+  <div class="roadmap" style="margin-top:18px">
+    <div class="card road now"><div class="label orange">Now · Must</div><h3>Pinned Spotlight rail</h3><ul><li>6 personalised titles</li><li>One-line “why you will love this” reason</li><li>V1 ships in 6 weeks</li></ul></div>
+    <div class="card road next"><div class="label cyan">Next · Should</div><h3>Taste-profile tuning</h3><ul><li>Give users control over taste signals</li><li>Preserve the narrow V1 scope</li></ul></div>
+    <div class="card road later"><div class="label violet">Later · Could / Won’t now</div><h3>Social proof, not redesign</h3><ul><li>Could: social-proof badges</li><li>Won’t now: full home-screen redesign</li></ul></div>
+  </div>
+  <div class="split" style="margin-top:14px">
+    <div class="card">
+      <div class="label">PRD highlights</div>
+      <div class="bullets">
+        <div class="bullet"><div>Pinned top rail of 6 personalised titles.</div></div>
+        <div class="bullet"><div>Each title gets a single AI-generated one-line reason.</div></div>
+        <div class="bullet"><div>No other home-screen changes in V1.</div></div>
+        <div class="bullet"><div>Falls back to the existing editorial row if the taste profile is empty.</div></div>
+      </div>
+    </div>
+    <div class="card hero-card" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div><div class="label">Prototype</div><h3 style="margin-top:8px">Make the concept tangible.</h3><p class="small muted" style="margin-top:7px">Interactive prototype supplied for review.</p></div>
+      <a class="btn" href="https://www.figma.com/your-spotlight-prototype" target="_blank" rel="noopener" style="align-self:flex-start;margin-top:16px">View prototype ↗</a>
+    </div>
+  </div>
+</div>
+<div class="footer-tag"><span>04 / 08</span><span>Prioritisation · PRD · Prototype</span></div>
+</section>
+
+<section id="slide-5">
+<div class="container">
+  <div class="eyebrow">Slide 8 · Validation</div>
+  <h2>One experiment. One <span class="teal">decision rule.</span></h2>
+  <div class="kpi-grid" style="margin-top:16px">
+    <div class="kpi"><div class="label">Primary metric</div><div class="metric orange">−15 pts</div><p class="small">Wanderer churn reduction</p></div>
+    <div class="kpi"><div class="label">Guardrail</div><div class="metric teal">≥58%</div><p class="small">Power User curated engagement</p></div>
+    <div class="kpi"><div class="label">Traffic</div><div class="metric cyan">50/50</div><p class="small">Control / Variant</p></div>
+    <div class="kpi"><div class="label">Window</div><div class="metric violet">90d</div><p class="small">Day 30 guardrail check</p></div>
+  </div>
+  <div class="flow" style="margin-top:12px">
+    <div class="arm a"><div class="label blue">Control · A</div><h3>Current homepage</h3><p class="small">Algorithmic rows only, no curated rail. The observed funnel includes a 29-point Homepage-to-Browse drop, 19-point Detail-to-Play drop, and 11% reaching 30+ minute sessions.</p></div>
+    <div class="arm b"><div class="label orange">Variant · B</div><h3>Spotlight Curated Rail</h3><p class="small">3–5 hand-curated titles, above the fold, mobile-first, visually distinct from algorithmic rows. No other product elements change.</p></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="label">Measurement plan</div>
+    <div class="g3 grid" style="margin-top:9px">
+      <p class="small"><b>Baseline:</b> not available. The source reports the 22-point relative churn improvement for exposed Wanderers, not standalone non-exposed churn.</p>
+      <p class="small"><b>MDE:</b> 15 percentage points. Sample size per arm: 166. Significance: p &lt; 0.05.</p>
+      <p class="small"><b>Isolation:</b> app version, recommendation engine, rows, navigation, onboarding, notifications, billing, and Power User pathways remain identical.</p>
+    </div>
+  </div>
+  <div class="rules" style="margin-top:12px">
+    <div class="rulebox"><strong class="teal">SHIP</strong><p>Primary metric improves ≥15 points at p&lt;0.05 and the Power User guardrail stays ≥58%.</p></div>
+    <div class="rulebox"><strong class="orange">ITERATE</strong><p>Direction is positive but lift is below the MDE.</p></div>
+    <div class="rulebox"><strong class="pink">KILL</strong><p>Primary metric shows no improvement or moves negatively.</p></div>
+  </div>
+</div>
+<div class="footer-tag"><span>05 / 08</span><span>A/B Experiment Brief</span></div>
+</section>
+
+<section id="slide-6">
+<div class="container">
+  <div class="eyebrow">Slide 9 · Launch</div>
+  <h2>Target the quiet majority — <span class="cyan">without breaking the best users</span></h2>
+  <div class="dashboard" style="margin-top:18px">
+    <div class="card hero-card">
+      <div class="label">GTM strategy</div>
+      <h3 style="margin-top:8px">Engagement · Medium · Targeted</h3>
+      <div style="margin-top:10px">
+        <span class="pill">Goal: Engagement</span><span class="pill">Audience: Wanderers</span><span class="pill">Tier: M, Targeted</span><span class="pill">Owned: Push</span><span class="pill">Earned: N/A</span><span class="pill">Paid: N/A</span>
+      </div>
+      <div class="rule"></div>
+      <p class="small">Spotlight is a homepage change for existing subscribers. Push reaches lapsed Wanderers outside the app because low session frequency (1.1x/week) means in-app placement alone cannot reach everyone.</p>
+      <div class="rule"></div>
+      <div class="label">Enablement</div>
+      <p class="small" style="margin-top:7px">Support FAQ · Content-Ops workflow guide · Analytics dashboard brief · Push notification copy.</p>
+    </div>
+    <div class="card">
+      <div class="label">Success dashboard</div>
+      <div style="margin-top:10px">
+        <div class="kpi"><div class="label">Primary</div><div class="metric orange">≥15 pts</div><p class="small">Wanderer churn reduction by Day 90</p></div>
+        <div class="kpi" style="margin-top:8px"><div class="label">Engagement proxy</div><div class="metric cyan">CTR</div><p class="small">Rail click-through rate as early resonance signal</p></div>
+        <div class="kpi" style="margin-top:8px"><div class="label">Guardrail</div><div class="metric teal">≥58%</div><p class="small">Power User curated engagement</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="card bad" style="margin-top:12px">
+    <div class="label pink">Bad signal</div>
+    <p style="margin-top:6px"><b>High reach + low clicks:</b> content is not compelling. <b>Churn improves + Power User engagement drops:</b> best segment is being harmed. <b>Clicks healthy + churn flat:</b> engagement is not translating into retention.</p>
+  </div>
+  <div class="timeline" style="margin-top:12px">
+    <div class="phase"><div class="label orange">Phase 1 · Weeks 1–3</div><p class="small">Build rail, visual treatment, initial curated set, FAQ, dashboard brief, push copy.</p></div>
+    <div class="phase"><div class="label cyan">Phase 2 · Days 0–90</div><p class="small">50/50 launch; weekly guardrails; Day 30 directional check; Day 90 decision.</p></div>
+    <div class="phase"><div class="label violet">Phase 3 · Day 91+</div><p class="small">If shipped, expand to Casual Browsers and revisit tooling; otherwise redesign or document learnings.</p></div>
+  </div>
+</div>
+<div class="footer-tag"><span>06 / 08</span><span>GTM Launch Plan</span></div>
+</section>
+
+<section id="slide-7">
+<div class="container">
+  <div class="eyebrow">Slide 10 · Story</div>
+  <h2>The aha moment: <span class="orange">the reason is the product</span></h2>
+  <div class="story" style="margin-top:22px">
+    <div class="card hero-card key">
+      <div class="label">Friction → clarity</div>
+      <p class="aha" style="margin-top:12px">Writing the one-line “why you will love this” reason forced real clarity on the persona.</p>
+      <div class="rule"></div>
+      <p>The hardest part was resisting the urge to redesign the whole home screen.</p>
+    </div>
+    <div class="card">
+      <div class="label">Key takeaways</div>
+      <div class="bullets">
+        <div class="bullet"><div>A tight, reasoned shortlist beats a longer list.</div></div>
+        <div class="bullet"><div>Jamie’s trust gap is real, but Wanderers represent the higher-leverage business opportunity.</div></div>
+        <div class="bullet"><div>Spotlight’s value is curation with a visible reason, not simply another algorithmic row.</div></div>
+      </div>
+      <div class="rule"></div>
+      <div class="label">Next</div>
+      <p style="margin-top:7px">Close the loop by feeding Spotlight engagement back into the taste model and A/B testing social-proof badges.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="label">PM × AI</div>
+    <div class="g2 grid" style="margin-top:9px">
+      <p class="small"><b>PM:</b> chooses the problem, frames the strategy, reconciles qualitative and quantitative evidence, and owns the decision.</p>
+      <p class="small"><b>AI:</b> organizes and executes quickly. Better frameworks and judgment—not a “smarter” model—created the useful output.</p>
+    </div>
+  </div>
+</div>
+<div class="footer-tag"><span>07 / 08</span><span>Story & Reflection</span></div>
+</section>
+
+<section class="submit" id="slide-8">
+<div class="container">
+  <div class="eyebrow">Final · Submit</div>
+  <h2>Make discovery feel <span class="orange">obvious.</span></h2>
+  <p style="max-width:720px;margin-top:14px">StreamLine Spotlight turns a noisy catalog into a trusted, reasoned shortlist—then tests whether that trust changes retention where the business has the most to gain.</p>
+  <div class="callout">SUBMIT TO THE LEARNING PLATFORM</div>
+  <div style="margin-top:28px">
+    <a class="btn" href="https://github.com/your-handle/pm-final-project" target="_blank" rel="noopener">Open repository ↗</a>
+  </div>
+  <div class="linkline" style="margin-top:16px">https://github.com/your-handle/pm-final-project</div>
+  <div style="margin-top:18px"><span class="pill">Product Management Cohort · Jun 2026</span></div>
+</div>
+<div class="footer-tag"><span>08 / 08</span><span>Thank you</span></div>
+</section>
+
+<script>
+(() => {
+  const sections = [...document.querySelectorAll('section')];
+  const dots = [...document.querySelectorAll('.dot')];
+  const bar = document.querySelector('#progress span');
+  let active = 0;
+  function go(i){
+    i = Math.max(0, Math.min(sections.length - 1, i));
+    sections[i].scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function update(){
+    const y = window.scrollY + innerHeight * .5;
+    let idx = 0;
+    sections.forEach((s,i)=>{ if(y >= s.offsetTop) idx=i; });
+    active = idx;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+    bar.style.width = ((idx)/(sections.length-1)*100) + '%';
+  }
+  dots.forEach((d,i)=>d.addEventListener('click',()=>go(i)));
+  addEventListener('scroll',update,{passive:true});
+  addEventListener('keydown',e=>{
+    if(['ArrowDown','Space','PageDown'].includes(e.code)){e.preventDefault();go(active+1)}
+    else if(['ArrowUp','PageUp'].includes(e.code)){e.preventDefault();go(active-1)}
+    else if(e.code==='Home'){e.preventDefault();go(0)}
+    else if(e.code==='End'){e.preventDefault();go(sections.length-1)}
+    else if(e.code==='Escape'){e.preventDefault();document.documentElement.scrollTop=sections[0].offsetTop}
+  });
+  update();
+})();
+</script>
+</body>
+</html>
